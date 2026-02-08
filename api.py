@@ -1,22 +1,30 @@
 from fastapi import FastAPI, UploadFile, File
-from fastapi.responses import Response
+from fastapi.responses import StreamingResponse
 from fastapi.middleware.cors import CORSMiddleware
+from rembg import remove
+from PIL import Image
+import io
 
 app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "https://yordinz.github.io"],
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return {"ok": True}
+
 @app.post("/remove-bg")
 async def remove_bg(file: UploadFile = File(...)):
-    from rembg import remove  # ✅ import aquí adentro (lazy)
-    if not file.content_type or not file.content_type.startswith("image/"):
-        return Response(b"Invalid file type", status_code=400, media_type="text/plain")
+    image = Image.open(file.file).convert("RGBA")
+    output = remove(image)
 
-    data = await file.read()
-    out = remove(data)
-    return Response(content=out, media_type="image/png")
+    buf = io.BytesIO()
+    output.save(buf, format="PNG")
+    buf.seek(0)
+
+    return StreamingResponse(buf, media_type="image/png")
