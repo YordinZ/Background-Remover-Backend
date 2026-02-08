@@ -44,6 +44,8 @@ Uvicorn
 
 Docker
 
+Hugginface (API-BACKEND)
+
 ---
 
 ## 📦 Estructura del Proyecto
@@ -60,7 +62,7 @@ GET /
 
 Health check.
 
-Response
+- Response
 
 { "ok": true }
 
@@ -68,13 +70,13 @@ POST /remove-bg
 
 Elimina el fondo de una imagen.
 
-Request
+- Request
 
 multipart/form-data
 
 Campo: file (PNG o JPG)
 
-Response
+- Response
 
 image/png (imagen con fondo transparente)
 
@@ -157,5 +159,3 @@ const imageUrl = URL.createObjectURL(blob);
 Tamaño recomendado de imagen: ≤ 8 MB
 
 El primer request puede tardar un poco (cold start)
-
-Ideal para demos, portafolios y pruebas reales de IA
