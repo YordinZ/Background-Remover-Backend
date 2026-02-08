@@ -59,25 +59,20 @@ Hugginface (API-BACKEND)
 >🔌 Endpoints
 
 GET /
-
 Health check.
 
-- Response
-
+-Response
 { "ok": true }
 
 POST /remove-bg
-
 Elimina el fondo de una imagen.
 
-- Request
-
+-Request
 multipart/form-data
 
 Campo: file (PNG o JPG)
 
-- Response
-
+-Response
 image/png (imagen con fondo transparente)
 
 ---
